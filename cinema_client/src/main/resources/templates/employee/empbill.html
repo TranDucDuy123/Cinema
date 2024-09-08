@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <link th:href="@{/css/main.css}" rel="stylesheet"/>
+    <meta charset="utf-8">
+    <link rel="icon" href="favicon.ico">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="#000000">
+    <meta name="description" content="Web site created using create-react-app">
+    <link rel="apple-touch-icon" href="logo192.png">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,700&amp;display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <title>Ticket CTR</title>
+    <link th:href="@{/css/2.fd207d57.chunk.css}" rel="stylesheet"/>
+    <link th:href="@{/css/main.ffa69c8e.chunk.css}" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" 
+    integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.3.2/swiper-bundle.css" 
+    integrity="sha512-ipO1yoQyZS3BeIuv2A8C5AwQChWt2Pi4KU3nUvXxc4TKr8QgG8dPexPAj2JGsJD6yelwKa4c7Y2he9TTkPM4Dg==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+main {
+    margin-top: 10px; /* Adds more space below the header */
+    padding: 20px;
+}
+.table-responsive {
+    width: 100%;
+}
+
+table {
+    width: 100%; /* Bảng luôn có chiều rộng 100% */
+    margin: 40px 0 20px 0; /* Adds 40px margin at the top of the table */
+    border-collapse: collapse;
+    font-size: 16px;
+    text-align: left;
+    min-width: 100%; /* Đảm bảo bảng luôn chiếm hết chiều rộng */
+}
+
+table th, table td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    background-color: #ffffff; /* White background for table cells */
+    color: #000000; /* Black text color */
+}
+
+table th {
+    background-color: #1c344d;
+    color: white;
+}
+
+table tbody tr:nth-of-type(even) {
+    background-color: #f4f4f4;
+}
+
+table tbody tr:hover {
+    background-color: #e9e9e9;
+    cursor: pointer;
+}
+
+.bill-date {
+    font-size: 14px;
+    color: #777;
+}
+
+.bill-price {
+    font-weight: bold;
+    color: #333;
+}
+
+    </style>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const printButtons = document.querySelectorAll('.print-btn');
+        printButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const billId = this.dataset.id;
+                window.open('http://localhost:8080/api/bills/pdf/' + billId, '_blank');
+            });
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const rows = document.querySelectorAll('.bill-item');
+        rows.forEach(row => {
+            row.addEventListener('dblclick', function() {
+                const billId = this.dataset.id;
+                window.location.href = '/employee/viewTickets?billId=' + billId;
+            });
+        });
+    });
+    </script>
+</head>
+<body>
+    <header lang="vi" th:include="fragments/header :: header"/>
+   
+    <main>
+        <div id="billsList">
+            <div th:if="${#lists.isEmpty(bills)}">
+                <p>No recent bills to show.</p>
+            </div>
+            <div th:if="${!#lists.isEmpty(bills)}" class="table-responsive">
+                <table id="example" class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Date Created</th>
+                           
+                            <th>Price</th>
+                            <th>Function</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                      <tr th:each="bill : ${bills}" class="bill-item" th:data-id="${bill.id}">
+                        <td th:text="${bill.id}"></td>
+                        <td th:text="${bill.formattedCreatedTime}"></td>
+                      
+
+                        <td th:text="${bill.price}"></td>
+                        <td>
+                         <button class="print-btn" th:data-id="${bill.id}" style="background-color: #E34724; border-radius: 50%; color: antiquewhite;">
+                            <i class="fas fa-print" aria-hidden="true"></i>
+                        </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2024 Cinema Client Application</p>
+    </footer>
+    
+</body>
+</html>

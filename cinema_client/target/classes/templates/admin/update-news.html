@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro:400,600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" th:href="@{/fonts/icomoon/style.css}">
+
+    <link rel="stylesheet" th:href="@{/css/owl.carousel.min.css}">
+
+    <!-- Bootstrap CSS -->
+    
+    <link th:href="@{/css/main.css}" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,700&amp;display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+
+
+    <!-- Style -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/form-style.css}">
+      <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+	<script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+	<script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+    <title>Ticket CTR</title>
+  </head>
+  <body>
+  <th:block lang="vi" th:include="fragments/admin/navigation :: navigation"></th:block>
+
+  <main>
+    <div class="container py-5">
+      <div class="row py-5">
+        <div class="col-lg-8 mx-auto">
+          <div class="card rounded shadow border-0">
+            <div class="card-body p-5 bg-white rounded">
+              <h3 class="mb-4">Update News</h3>
+              <form method="POST" id="contactForm" name="contactForm" class="contactForm" 
+                    th:action="@{/admin/news/update}" th:object="${news}">
+                      	<input th:field="*{id}" type="hidden"/>
+                <div class="form-group">
+                  <label for="title">Title</label>
+                  <input type="text" id="title" name="title" class="form-control" th:value="${news.title}" required />
+                </div>
+                <div class="form-group">
+                  <label for="authorName">Author</label>
+                  <input type="text" id="authorName" name="authorName" class="form-control" th:value="${news.authorName}" required />
+                </div>
+                <div class="form-group">
+                <label for="newsType">News Type</label>
+                <select th:field="*{newsType}" class="form-control" id="newsType">
+                    <option value="0">Movie Business24h</option>
+                    <option value="1">Review</option>
+                    <option value="2">Discount</option>
+                </select>
+            </div>
+                 <div class="form-group">
+                <label for="content">Content</label>
+                <textarea th:field="*{content}" class="form-control" id="content" rows="5" placeholder="Enter news content"></textarea>
+            </div>
+             <div class="form-group">
+                <label for="content1">Content1</label>
+                <textarea th:field="*{content1}" class="form-control" id="content1" rows="5" placeholder="Enter news content 1"></textarea>
+            </div>
+             <div class="form-group">
+                <label for="content2">Content2</label>
+                <textarea th:field="*{content2}" class="form-control" id="content2" rows="5" placeholder="Enter news content 2"></textarea>
+            </div>
+            <div class="form-group">
+    <label for="imageFile">Image File</label>
+    <input type="file" th:field="*{imageFile}" class="form-control-file" id="imageFile">
+    <small id="currentFileName" class="form-text text-muted"></small>
+</div>
+                <div class="form-group">
+                  <label for="publishedDate">Published Date</label>
+                  <input type="date" id="publishedDate" name="publishedDate" class="form-control" th:value="${news.publishedDate}" required />
+                </div>
+                <button type="submit" class="btn btn-primary">Update News</button>
+              </form>
+               <form id="uploadImageForm" th:action="@{/images/upload}" method="post" enctype="multipart/form-data" style="display: none;">
+            <input type="file" name="file" accept="image/*" id="uploadImageFile"/>
+            <button type="submit">Upload</button>
+        </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <!-- Thêm jQuery trước Bootstrap -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+  <script>
+  document.addEventListener('DOMContentLoaded', function () {
+      const contactForm = document.getElementById('contactForm');
+      const uploadImageForm = document.getElementById('uploadImageForm');
+      const imageFileInput = document.getElementById('imageFile');
+      const uploadImageFileInput = document.getElementById('uploadImageFile');
+
+      contactForm.addEventListener('submit', function (event) {
+          event.preventDefault(); // Ngăn chặn việc gửi form ngay lập tức
+
+          // Kiểm tra xem có file ảnh không
+          if (imageFileInput.files.length > 0) {
+              // Tạo một đối tượng FormData để gửi ảnh
+              const imageFormData = new FormData();
+              imageFormData.append('file', imageFileInput.files[0]);
+
+              // Gửi ảnh lên máy chủ
+              fetch(uploadImageForm.action, {
+                  method: 'POST',
+                  body: imageFormData
+              })
+              .then(response => {
+                  // Kiểm tra xem phản hồi có phải là JSON không
+                  if (response.headers.get('content-type')?.includes('application/json')) {
+                      return response.json();
+                  } else {
+                      return response.text(); // Nếu không phải JSON, trả về dưới dạng văn bản
+                  }
+              })
+              .then(data => {
+                  console.log('Image upload success:', data);
+                  // Tiếp tục gửi form chính
+                  contactForm.submit();
+              })
+              .catch(error => {
+                  console.error('Error uploading image:', error);
+              });
+
+          } else {
+              // Nếu không có file ảnh, gửi form chính ngay lập tức
+              contactForm.submit();
+          }
+      });
+  });
+  $(document).ready(function() {
+    var currentImageFileName = /*[[${currentImageFileName}]]*/ '';
+    if (currentImageFileName) {
+      $('#currentFileName').text('Current file: ' + currentImageFileName);
+    }
+  });
+</script>
+ <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
+    <script th:src="@{/js/popper.min.js}"></script>
+    <script th:src="@{/js/main.js}"></script>
+  </body>
+</html>

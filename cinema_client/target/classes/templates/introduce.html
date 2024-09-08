@@ -1,0 +1,389 @@
+
+
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link th:href="@{/css/main.css}" rel="stylesheet"/>
+    <meta charset="utf-8"/>
+    <link rel="icon" href="favicon.ico"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="theme-color" content="#000000">
+    <meta name="description" content="Web site created using create-react-app"/>
+    <link rel="apple-touch-icon" href="logo192.png">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"/>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&amp;display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+          integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,700&amp;display=swap" rel="stylesheet"/>
+    <link href="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css"/>
+    <title>Lọc Lịch Chiếu - AP Movie</title>
+    <link th:href="@{/css/2.fd207d57.chunk.css}" rel="stylesheet"/>
+    <link th:href="@{/css/main.ffa69c8e.chunk.css}" rel="stylesheet"/>
+    <style>
+        .schedule-item {
+            margin-bottom: 30px;
+        }
+
+        .card {
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        .section-title {
+            margin-top: 50px;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 2rem;
+            color: #333;
+        }
+
+        .filter-section {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .filter-section .form-group label {
+            font-weight: bold;
+        }
+
+        .filter-section .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+
+        .filter-section .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .card-body {
+            padding: 15px;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+        }
+
+        .card-text {
+            font-size: 0.9rem;
+        }
+
+        .card-img-top {
+            max-height: 240px;
+            object-fit: cover;
+            margin-bottom: 15px;
+        }
+
+        .feedback-list {
+            margin-top: 15px;
+        }
+
+        .feedback-item {
+            margin-bottom: 10px;
+        }
+
+        .feedback-item .fa-star {
+            margin-right: 5px;
+        }
+
+        .list__comment {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            border-top: 1px solid #e9ecef;
+            margin-top: 15px;
+        }
+
+        .list__comment li {
+            padding: 15px;
+            border-bottom: 1px solid #e9ecef;
+            margin-bottom: 10px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .user-name {
+            font-weight: bold;
+            color: #343a40;
+        }
+
+        .rating {
+            color: #ffc107; /* Màu vàng cho sao */
+            font-size: 14px;
+        }
+
+        .comment-body {
+            font-size: 14px;
+            color: #495057;
+        }
+
+        .comment-body span {
+            display: block;
+            margin-top: 5px;
+            line-height: 1.5;
+        }
+
+        .no-feedback {
+            text-align: center;
+            font-style: italic;
+            color: #6c757d;
+        }
+
+        .comment-modal .modal-content {
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .rating label {
+            font-size: 2rem;
+            color: #ffc107;
+            cursor: pointer;
+        }
+
+        .textb textarea {
+            width: 100%;
+            height: 100px;
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+            padding: 10px;
+        }
+
+        .textb .placeholder {
+            color: #6c757d;
+            font-style: italic;
+        }
+
+        .button-post {
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 5px;
+        }
+
+    </style>
+</head>
+
+<body>
+<div id="root">
+    <input type="hidden" id="userId" th:value="${userId}">
+    <div th:if="${jwtResponse != null}">
+        <input type="hidden" id="token" th:value="${token}">
+    </div>
+    <!-- Giữ nguyên header -->
+    <header lang="vi" th:include="fragments/header :: header"/>
+
+    <div class="container mt-5 pt-5">
+        <h1 class="text-center text-light mb-5">Filter Movie Schedules</h1>
+
+        <!-- Schedule filter area -->
+        <!-- <div class="filter-section">
+            <form id="filterForm">
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="movieName">Movie Name</label>
+                        <input type="text" class="form-control" id="movieName" placeholder="Enter movie name..." name="search" th:value="${search}">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="startDate">Start Date</label>
+                        <input type="date" class="form-control" id="startDate" name="startDate" th:value="${startDate}">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="endDate">End Date</label>
+                        <input type="date" class="form-control" id="endDate" name="endDate" th:value="${endDate}">
+                    </div>
+                    <div class="form-group col-md-2 align-self-end">
+                        <button type="submit" class="btn btn-primary btn-block">Filter</button>
+                    </div>
+                </div>
+            </form>
+        </div> -->
+
+        <!-- Schedule result area -->
+        <div class="section-title text-light">Filter Results</div>
+        <div id="filteredSchedules">
+            <!-- Render schedule list from server -->
+            <div class="schedule-item" th:each="schedule : ${introList}" th:attr="data-schedule-id=${schedule.id}">
+                <div class="card" th:onclick="'openFeedbackModal(' + ${schedule.id} + ');'">
+                    <img th:src="${schedule.smallImageUrl}" class="card-img-top" alt="Movie Poster">
+                    <div class="card-body">
+                        <h5 class="card-title">Movie: <span th:text="${schedule.movieName}"></span></h5>
+                        <p class="card-text">Time: <span th:text="${schedule.startTime}"></span></p>
+                        <p class="card-text">Date: <span th:text="${schedule.startDate}"></span></p>
+                        <p class="card-text">Location: <span th:text="${schedule.branchName}"></span>, Room: <span th:text="${schedule.roomName}"></span></p>
+                        <p class="card-text">Price: <span th:text="${#numbers.formatDecimal(schedule.price, 0, 0, 'COMMA')}"></span> VND</p>
+                        <!-- <a href="#" class="btn btn-primary" th:onclick="'openFeedbackModal(' + ${schedule.id} + ');'">Book Ticket</a> -->
+                    </div>
+                </div>
+                <!-- Display the list of comments -->
+                <ul class="list__comment">
+                    <li th:each="feedback : ${feedbacksBySchedule[schedule.id]}">
+                        <div class="comment-header">
+                            <span class="user-name" th:text="${feedback.username}"></span>
+                            <div class="rating">
+                                <i class="fa fa-star" th:each="i : ${#numbers.sequence(1, feedback.rated)}"></i>
+                                <i class="fa fa-star-half-alt" th:if="${feedback.rated % 1 != 0}"></i>
+                            </div>
+                        </div>
+                        <div class="comment-body">
+                            <span th:text="${feedback.content}"></span>
+                        </div>
+                    </li>
+
+                    <!-- If no feedback -->
+                    <li th:if="${feedbacksBySchedule[schedule.id] == null || feedbacksBySchedule[schedule.id].isEmpty()}">
+                        <div class="no-feedback">
+                            <p>No feedback yet. Be the first to leave a review!</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feedback modal -->
+    <div class="modal fade comment-modal" id="CommentModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form class="comment-form" id="commentForm">
+                        <div class="rating">
+                            <input type="radio" name="rating" id="r5" value="5" required>
+                            <label for="r5"></label>
+                            <input type="radio" name="rating" id="r4" value="4">
+                            <label for="r4"></label>
+                            <input type="radio" name="rating" id="r3" value="3">
+                            <label for="r3"></label>
+                            <input type="radio" name="rating" id="r2" value="2">
+                            <label for="r2"></label>
+                            <input type="radio" name="rating" id="r1" value="1">
+                            <label for="r1"></label>
+                        </div>
+                        <div class="textb">
+                            <textarea type="text" name="comment" required=""></textarea>
+                            <div class="placeholder">Comment</div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-block button-post" onclick="submitComment()">Submit</button>
+                        </div>
+                    </form> <!-- Ensure the </form> tag is closed correctly -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Giữ nguyên footer -->
+    <footer lang="vi" class="container" th:include="fragments/footer :: footer"/>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.js"></script>
+
+<script>
+    let currentScheduleId = null;
+
+    // Hàm mở modal để thêm phản hồi
+    function openFeedbackModal(scheduleId) {
+        $('#CommentModal').modal('show');
+        currentScheduleId = scheduleId;
+    }
+
+    // Hàm gửi bình luận
+    function submitComment() {
+        // Lấy các giá trị cần thiết từ các input ẩn
+        const token = document.getElementById('token')?.value;
+        const userId = document.getElementById('userId')?.value;
+
+        // Kiểm tra xem người dùng đã đăng nhập hay chưa
+        if (!token) {
+            alert('Bạn cần đăng nhập để gửi phản hồi.');
+            return;
+        }
+
+        // Thu thập dữ liệu từ form
+        const rating = document.querySelector('input[name="rating"]:checked')?.value;
+        const comment = document.querySelector('textarea[name="comment"]')?.value;
+
+        // Kiểm tra nếu không có đánh giá hoặc bình luận
+        if (!rating || !comment) {
+            alert('Vui lòng điền đầy đủ thông tin.');
+            return;
+        }
+
+        // Chuẩn bị dữ liệu gửi lên server
+        const data = {
+            content: comment,
+            rated: rating,
+            type: "schedule",
+            userId: userId,
+            referenceId: currentScheduleId
+        };
+
+        // Gửi yêu cầu POST tới API
+        fetch('http://localhost:8080/api/feedbacks/add/schedule', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => response.json())
+            .then(result => {
+
+                // console.log('API Response:', result.result);
+
+                //     // Tạo phần tử HTML cho bình luận mới
+                    const feedbackItem = `
+                    <li>
+                        <div class="comment-header">
+                            <span class="user-name">${result.result.username}</span>
+                            <div class="rating">
+                                ${Array(result.result.rated).fill('<i class="fa fa-star"></i>').join('')}
+                            </div>
+                        </div>
+                        <div class="comment-body">
+                            <span>${result.result.content}</span>
+                        </div>
+                    </li>
+                `;
+
+                    // Tìm đúng ul.list__comment dựa trên scheduleId và thêm bình luận mới
+                    const feedbackList = document.querySelector(`.schedule-item[data-schedule-id="${currentScheduleId}"] .list__comment`);
+                    if (feedbackList) {
+                        feedbackList.insertAdjacentHTML('afterbegin', feedbackItem);
+                    }
+
+                    // Reset form sau khi gửi thành công
+                    document.getElementById('commentForm').reset();
+                alert('Thêm feedback thành công!');
+
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Có lỗi xảy ra, vui lòng thử lại.');
+            })
+            .finally(() => {
+                // Đóng modal sau khi gửi feedback
+                $('#CommentModal').modal('hide');
+            });
+    }
+</script>
+
+</body>
+</html>

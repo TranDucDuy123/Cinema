@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+   <link th:href="@{/css/main.css}" rel="stylesheet"/>
+    <meta charset="utf-8">
+    <link rel="icon" href="favicon.ico">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="#000000">
+    <meta name="description" content="Web site created using create-react-app">
+    <link rel="apple-touch-icon" href="logo192.png">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,700&amp;display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <title>Ticket CTR</title>
+    <link th:href="@{/css/2.fd207d57.chunk.css}" rel="stylesheet"/>
+    <link th:href="@{/css/main.ffa69c8e.chunk.css}" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" 
+    integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.3.2/swiper-bundle.css" 
+    integrity="sha512-ipO1yoQyZS3BeIuv2A8C5AwQChWt2Pi4KU3nUvXxc4TKr8QgG8dPexPAj2JGsJD6yelwKa4c7Y2he9TTkPM4Dg==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+       
+ 
+
+        main {
+            margin-top: 10px; /* Adds more space below the header */
+            padding: 20px;
+        }
+
+        table {
+            margin: 40px 0 20px 0; /* Adds 40px margin at the top of the table */
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 16px;
+            text-align: left;
+        }
+
+        table th, table td {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            background-color: #ffffff; /* White background for table cells */
+            color: #000000; /* Black text color */
+        }
+
+        table th {
+            background-color: #1c344d;
+            color: white;
+        }
+
+        table tbody tr:nth-of-type(even) {
+            background-color: #f4f4f4;
+        }
+
+        table tbody tr:hover {
+            background-color: #e9e9e9;
+            cursor: pointer;
+        }
+
+      
+    </style>
+       
+
+     
+    </style>
+    </head>
+    <body>
+         <header lang="vi" th:include="fragments/header :: header"/>
+        <main>
+            
+            <div id="ticketsList" th:if="${#lists.isEmpty(tickets)}">
+               
+            </div>
+            <div id="ticketsList" th:if="${!#lists.isEmpty(tickets)}">
+              <div class="table-responsive">
+                  <table id="example" style="width:100%" class="table table-striped table-bordered">
+                    <thead>
+                      <tr>
+                        <th >ID</th>
+                       
+                        <th >Showtimes</th>  
+                        <th>name</th>            
+                        <th>Price</th>                               
+                        <th >Chair name</th>
+                                                           
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr th:each="ticket : ${tickets}">
+                      	<td  th:text="${ticket.id}"></td>
+                        
+
+                        <td>
+                        	<span th:text="${ticket.schedule.startDate}"></span>
+                        	
+                        	<span style="display: block;" th:text="${ticket.schedule.startTime}"></span>
+                        </td>
+                         	<td  th:text="${ticket.schedule.movie.name}"></td>                     
+                       <td>
+    <span th:text="${ticket.price}"></span>
+</td>
+
+                       	<td  th:text="${ticket.seat.name}"></td>                      
+                     
+                      </tr>
+       			 </tbody>
+    		</table>
+	</div>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2024 Cinema Client Application</p>
+        </footer>
+        
+    </body>
+</html>

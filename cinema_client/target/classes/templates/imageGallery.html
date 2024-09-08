@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Image Gallery</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+    <h1>Image Gallery</h1>
+
+    <div th:if="${error}">
+        <p th:text="${error}" style="color:red;"></p>
+    </div>
+
+    <div th:if="${images != null}">
+        <ul>
+            <li th:each="image : ${images}">
+                <img th:src="@{/api/images/images/{fileName}(fileName=${image})}" alt="Image" style="max-width: 200px; max-height: 200px;"/>
+            </li>
+        </ul>
+    </div>
+
+    <div>
+        <a th:href="@{/images}">Back to Upload Page</a>
+    </div>
+</body>
+</html>

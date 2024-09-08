@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+   <link th:href="@{/css/main.css}" rel="stylesheet" />
+   <meta charset="utf-8">
+   <link rel="icon" href="favicon.ico">
+   <meta name="viewport" content="width=device-width,initial-scale=1">
+   <meta name="theme-color" content="#000000">
+   <meta name="description" content="Web site created using create-react-app">
+   <link rel="apple-touch-icon" href="logo192.png">
+   <link rel="stylesheet"
+       href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+       integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+       crossorigin="anonymous">
+   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&amp;display=swap"
+       rel="stylesheet">
+   <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,700&amp;display=swap"
+       rel="stylesheet">
+   <link href="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.css"
+       rel="stylesheet">
+   <link rel="stylesheet"
+       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+   <link rel="stylesheet"
+       href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+   <title>Ticket CTR</title>
+   <link th:href="@{/css/2.fd207d57.chunk.css}" rel="stylesheet" />
+   <link th:href="@{/css/main.ffa69c8e.chunk.css}" rel="stylesheet" />
+   <object th:replace="fragments/style-cinema :: stylecss"></object>
+   <link href="https://fonts.googleapis.com/css2?family=Bungee+Shade&display=swap" rel="stylesheet">
+
+   <style>
+/* Reset some default styles */
+body, h1, p {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Body background and typography styling */
+body {
+    background-color: #1e1e1e; /* Dark background for modern feel */
+    color: #ffffff; /* Text in white to stand out on dark background */
+    font-size: 16px;
+    line-height: 1.6;
+     margin-top: 110px;
+}
+
+/* Header styling */
+header {
+    background-color: #20232a;
+    padding: 10px 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+header a {
+    color: #61dafb; /* Use React blue for the header links */
+    font-weight: bold;
+    text-decoration: none;
+}
+
+/* Container styling */
+.container {
+    margin-top: 150px;
+    max-width: 1200px;
+    padding: 0 20px;
+}
+
+/* Title styling */
+h1 {
+    color: #61dafb; /* Use blue accent color for titles */
+    font-size: 2.5rem;
+    font-family: 'Bungee Shade', sans-serif; /* Unique, bold font for titles */
+    text-transform: uppercase;
+    text-shadow: 2px 4px 5px rgba(0, 0, 0, 0.3);
+    margin-bottom: 30px;
+}
+
+/* Flexbox layout for content and image */
+.content-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 40px; /* Increased spacing between image and content */
+    flex-direction: row-reverse;
+}
+
+.content-wrapper:hover img {
+    transform: scale(1.05); /* Smooth hover effect on the image */
+    transition: all 0.3s ease;
+}
+
+/* Content area */
+.content {
+    flex: 1;
+    padding: 20px;
+}
+
+.content p {
+    font-size: 1.1rem;
+    color: #d1d1d1; /* Soft gray for text */
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+/* Styling for images */
+.content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+/* Published date and author */
+small {
+    color: #999;
+    display: block;
+    margin-top: 10px;
+    font-size: 0.9rem;
+}
+
+/* Buy Ticket Button */
+.btn.buyTicket__button {
+    background-color: #61dafb;
+    color: #000;
+    font-weight: bold;
+    padding: 10px 20px;
+    text-transform: uppercase;
+    border-radius: 30px;
+    transition: background-color 0.3s ease;
+}
+
+.btn.buyTicket__button:hover {
+    background-color: #fff;
+    color: #61dafb;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+}
+
+/* Footer styling */
+
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+    .content-wrapper {
+        flex-direction: column;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    .container {
+        margin-top: 100px;
+    }
+
+    .btn.buyTicket__button {
+        padding: 8px 16px;
+    }
+}
+
+
+   </style>
+</head>
+<body>
+	<header lang="vi" th:include="fragments/header :: header"></header>
+    <div class="container my-4">
+        <h1 th:text="${news.title}" class="mb-4">News Title</h1>
+        <div class="content-wrapper">
+            <div class="content">
+                <div th:if="${news.content}">
+                    <p th:text="${news.content}"></p>
+                </div>
+                
+                <div th:if="${news.content1}">
+                    <p th:text="${news.content1}"></p>
+                </div>
+                
+                <div th:if="${news.content2}">
+                    <p th:text="${news.content2}"></p>
+                </div>
+            </div>
+            <img th:src="@{'/images/' + ${news.imageFile}}" alt="News Image" class="img-fluid">
+        </div>
+        <small th:text="'Published Date: ' + ${news.publishedDate}"></small><br>
+        <small th:text="'Author: ' + ${news.authorName}"></small><br>
+      <div class="item__button"><a class="btn buyTicket__button"
+									                        th:href="@{/movies}">ĐẶT VÉ</a></div>
+    </div>
+    <footer lang="vi" class="container"
+		th:include="fragments/footer :: footer"></footer>
+</body>
+</html>

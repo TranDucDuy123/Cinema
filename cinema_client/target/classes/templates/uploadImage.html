@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload Image</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+    <h1>Upload Image</h1>
+
+    <div th:if="${message}">
+        <p th:text="${message}" style="color:green;"></p>
+    </div>
+    <div th:if="${error}">
+        <p th:text="${error}" style="color:red;"></p>
+    </div>
+
+    <form th:action="@{/images/upload}" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" accept="image/*"/>
+        <button type="submit">Upload</button>
+    </form>
+
+    <div>
+        <a th:href="@{/images}">Back to Image Gallery</a>
+    </div>
+</body>
+</html>

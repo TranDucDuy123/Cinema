@@ -1,0 +1,45 @@
+    <div th:fragment="navigation">
+    <aside class="sidebar" >
+      <div class="toggle">
+        <a href="#" class="burger js-menu-toggle" data-toggle="collapse" data-target="#main-navbar">
+              <span></span>
+            </a>
+      </div>
+      <div class="side-inner">
+
+        <div class="profile">
+          <img src="/images/nu.jpg" alt="Image" class="img-fluid">
+          <h3 class="name">Cho kon LonTon</h3>
+          <span class="country">kan Ther, VN</span>
+        </div>
+
+        
+        <div class="nav-menu">
+          <ul>
+          	<li><a th:href="@{/admin}"><span class="fa fa-home mr-3"></span>Home</a></li>
+            <li><a th:href="@{/admin/accounts}"><span class="fas fa-users mr-3"></span>Accounts</a></li>
+            <li><a th:href="@{/admin/movies}"><span class="fas fa-film mr-3"></span>Movies</a></li>
+            <li><a th:href="@{/admin/rooms}"><span class="fa fa-couch mr-3"></span>Rooms</a></li>
+             <li><a th:href="@{/admin/news}"><span class="fa fa-newspaper mr-3"></span>News</a></li>
+            <li><a th:href="@{/admin/branches}"><span class="fas fa-building mr-3"></span>Branches</a></li>
+            <li><a th:href="@{/admin/schedules}"><span class="far fa-calendar-alt mr-3"></span>Schedules</a></li>
+              <li><a th:href="@{/admin/feedbacks}"><span class="fas fa-users mr-3"></span>Feedbacks</a></li>
+            <li><a th:href="@{/admin/bills}"><span class="fa fa-money mr-3"></span>Bills</a></li>
+             <li><a th:href="@{/admin/discounts}"><span class="fas fa-film mr-3"></span>Discount</a></li>
+            <li><a th:href="@{/sign-out}"><span class="fa fa-sign-out mr-3"></span>Sign out</a></li>
+          </ul>
+        </div>
+      </div>
+    </aside>
+    <script type="text/javascript">
+    $(function () {
+    	var curURL=window.location.href;
+    	$(".nav-menu ul li").filter(function( index ) {
+    		var tag= $( "a", this ).attr("href");
+    	    return curURL.includes(tag) && tag!="/admin";
+    	  }).addClass("active");
+    });
+    	
+    	
+    </script>
+</div>
